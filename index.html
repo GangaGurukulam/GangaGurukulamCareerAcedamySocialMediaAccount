@@ -21,47 +21,66 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            background-color: #121212; /* Dark background base */
+            background-color: #020024; /* Deep blue background */
             overflow: hidden;
             position: relative;
         }
 
-        /* === NEW: Living Liquid Gradient Background === */
-        .liquid-background {
+        /* === NEW: Floating Crystals Background === */
+        .crystal-background {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: 0;
-            filter: blur(100px); /* This creates the soft, liquid feel */
+            list-style: none;
         }
-        .blob {
+        .crystal-background li {
             position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 70%);
-            animation: move 25s infinite alternate;
+            bottom: -150px;
+            width: 40px; height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: float-up 20s infinite linear;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
         }
-        .blob1 { width: 400px; height: 400px; top: -100px; left: -100px; background-color: #00ffff; }
-        .blob2 { width: 300px; height: 300px; bottom: -50px; right: -50px; background-color: #ff00ff; animation-duration: 20s; animation-delay: 2s; }
-        .blob3 { width: 250px; height: 250px; top: 50%; left: 50%; background-color: #4d00ff; animation-duration: 30s; }
-
-        @keyframes move {
-            from { transform: translate(0, 0) rotate(0deg); }
-            to { transform: translate(100px, 200px) rotate(360deg); }
+        @keyframes float-up {
+            to {
+                transform: translateY(-120vh) rotate(720deg);
+                opacity: 0;
+            }
         }
+        /* Variations for different crystals */
+        .crystal-background li:nth-child(1) { left: 10%; width: 80px; height: 80px; animation-delay: 0s; animation-duration: 15s; }
+        .crystal-background li:nth-child(2) { left: 20%; width: 30px; height: 30px; animation-delay: 2s; animation-duration: 12s; }
+        .crystal-background li:nth-child(3) { left: 35%; width: 100px; height: 100px; animation-delay: 4s; }
+        .crystal-background li:nth-child(4) { left: 50%; width: 40px; height: 40px; animation-delay: 0s; animation-duration: 18s; }
+        .crystal-background li:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-delay: 0s; animation-duration: 10s; }
+        .crystal-background li:nth-child(6) { left: 85%; width: 120px; height: 120px; animation-delay: 3s; }
         
         /* Main Container */
         .main-container {
             width: 100%;
             max-width: 550px;
-            background: rgba(18, 18, 18, 0.6); /* Semi-transparent dark */
+            background: rgba(2, 0, 36, 0.7);
             backdrop-filter: blur(10px);
             border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             z-index: 10;
             padding: 30px;
             animation: open-box 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
             opacity: 0;
+            
+            /* === NEW: Scroll Fix for smaller heights === */
+            max-height: 95vh; /* Prevents container from being taller than the screen */
+            overflow-y: auto;  /* Adds a scrollbar ONLY if content overflows */
         }
+        
+        /* Custom Scrollbar Styling */
+        .main-container::-webkit-scrollbar { width: 6px; }
+        .main-container::-webkit-scrollbar-track { background: transparent; }
+        .main-container::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.3); border-radius: 10px; }
+
+
         @keyframes open-box { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
         
         .header { text-align: center; margin-bottom: 20px; }
@@ -70,20 +89,21 @@
             width: 90px;
             height: 90px;
             border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid #00c3ff;
             margin: 0 auto 15px;
             object-fit: cover;
             background-color: rgba(255, 255, 255, 0.1);
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 10px rgba(0, 195, 255, 0.5); }
+            50% { box-shadow: 0 0 25px rgba(0, 195, 255, 1); }
         }
         
-        /* === NEW: Font Style and Color for the Title === */
         .academy-title {
-            font-family: 'Audiowide', cursive;
-            font-size: 1.8rem;
-            font-weight: 400; /* Audiowide is bold by default */
-            background: linear-gradient(90deg, #00ffff, #ff00ff);
-            -webkit-background-clip: text;
-            background-clip: text;
+            font-family: 'Audiowide', cursive; font-size: 1.8rem; font-weight: 400;
+            background: linear-gradient(90deg, #00c3ff, #e547ff);
+            -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
             margin-bottom: 10px;
@@ -105,30 +125,48 @@
             gap: 25px; justify-items: center;
         }
         .social-profile { display: flex; flex-direction: column; align-items: center; text-decoration: none; width: 90px; }
+        
         .icon-circle {
             display: flex; justify-content: center; align-items: center;
             width: 70px; height: 70px; border-radius: 50%;
             background-color: rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
-        .social-profile:hover .icon-circle { transform: translateY(-5px) scale(1.1); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
+        .social-profile:hover .icon-circle {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
         .icon-circle i { color: #fff; font-size: 30px; }
         .icon-circle .icon-svg { width: 32px; height: 32px; fill: #fff; }
         .icon-name { margin-top: 10px; color: #ccc; font-weight: 600; }
         .site-footer { text-align: center; margin-top: 30px; color: #aaa; }
+
+        @media (max-width: 600px) {
+            body { padding: 15px; }
+            .main-container { padding: 20px; }
+            .academy-title { font-size: 1.5rem; }
+            .logo { width: 80px; height: 80px; }
+            .social-grid { gap: 15px; }
+            .icon-circle { width: 60px; height: 60px; }
+            .icon-circle i { font-size: 26px; }
+            .icon-circle .icon-svg { width: 28px; height: 28px; }
+        }
     </style>
 </head>
 <body>
-    <div class="liquid-background">
-        <div class="blob blob1"></div>
-        <div class="blob blob2"></div>
-        <div class="blob blob3"></div>
-    </div>
+    <ul class="crystal-background">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
     
     <div class="main-container">
         <header class="header">
             <img src="img/photo_2025-10-04_12-52-16(1).jpg" alt="Ganga Gurukulam Logo" class="logo">
-            
             <h1 class="academy-title">Ganga Gurukulam Career Academy</h1>
         </header>
 
