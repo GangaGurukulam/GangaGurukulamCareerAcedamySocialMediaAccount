@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
     
     <style>
+        :root {
+            --glow-color: hsl(193, 100%, 50%);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         html, body {
@@ -26,29 +30,43 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            background-color: #000;
+            background-color: #010409;
             position: relative;
         }
 
-        /* Hyperdrive Background */
-        .starfield {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            perspective: 800px;
-            z-index: 0;
+        /* NEW: Aurora Gradient Background (More performant) */
+        .aurora-background {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            opacity: 0.6;
         }
-        .star {
-            position: absolute; background-color: white; border-radius: 50%;
-            transform-origin: center; animation: hyperdrive linear infinite;
+        .aurora-background::before,
+        .aurora-background::after {
+            content: '';
+            position: absolute;
+            width: 80vmax; height: 80vmax;
+            border-radius: 50%;
+            background-image: radial-gradient(circle at center, rgba(0, 195, 255, 0.4) 0%, rgba(0, 195, 255, 0) 60%);
+            animation: move-aurora 15s infinite linear alternate;
         }
-        @keyframes hyperdrive {
-            from { transform: translateZ(-100px) scale(0.1); opacity: 1; }
-            to { transform: translateZ(800px) scale(1); opacity: 0; }
+        .aurora-background::after {
+            background-image: radial-gradient(circle at center, rgba(240, 185, 11, 0.3) 0%, rgba(240, 185, 11, 0) 60%);
+            animation-duration: 20s;
+            animation-direction: alternate-reverse;
+            right: -20vmax;
+            bottom: -20vmax;
         }
-        
+        @keyframes move-aurora {
+            from { transform: translate(20vw, 20vh) rotate(0deg); }
+            to { transform: translate(-20vw, -20vh) rotate(360deg); }
+        }
+
         /* Preloader (Unchanged) */
         .preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #020024; display: flex; flex-direction: column;
+            background: #010409; display: flex; flex-direction: column;
             justify-content: center; align-items: center; z-index: 1000;
             transition: opacity 0.5s ease 0.5s, visibility 0.5s ease 0.5s;
         }
@@ -60,14 +78,14 @@
         }
         .ring {
             position: absolute; top: 50%; left: 50%;
-            border: 2px solid #00c3ff; border-radius: 50%;
+            border: 2px solid var(--glow-color); border-radius: 50%;
             transform: translate(-50%, -50%) scale(0); opacity: 0;
         }
         .ring:nth-child(1) { width: 150px; height: 150px; animation: sweep 2s ease-out forwards; }
         .ring:nth-child(2) { width: 200px; height: 200px; animation: sweep 2s ease-out 0.2s forwards; }
         .ring:nth-child(3) { width: 250px; height: 250px; animation: sweep 2s ease-out 0.4s forwards; }
         .preloader-text {
-            color: white; font-family: 'Audiowide', cursive; font-size: 1.5rem;
+            color: white; font-family: 'Cinzel Decorative', serif; font-size: 1.5rem;
             margin-top: 20px; opacity: 0;
             animation: fade-in-out 2s ease-in-out 1.5s forwards;
         }
@@ -75,31 +93,37 @@
         @keyframes reveal-logo { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
         @keyframes fade-in-out { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
         body.loaded .preloader { opacity: 0; visibility: hidden; }
-        
-        /* Main Container setup for desktop */
+
+        /* Main Container (NEW Style) */
         .main-container {
             width: 100%; max-width: 550px;
-            background: rgba(2, 0, 36, 0.7); backdrop-filter: blur(10px);
-            border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(13, 17, 23, 0.6); backdrop-filter: blur(15px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             z-index: 10; padding: 30px;
             max-height: 90vh; overflow-y: auto;
-            opacity: 0; visibility: hidden;
-            transition: opacity 0.8s ease 0.5s, visibility 0.8s ease 0.5s;
+            opacity: 0; animation: fade-in-up 1s ease forwards 3.6s;
         }
-        body.loaded .main-container { opacity: 1; visibility: visible; }
-        
+
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .main-container::-webkit-scrollbar { width: 6px; }
         .main-container::-webkit-scrollbar-track { background: transparent; }
-        .main-container::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.3); border-radius: 10px; }
+        .main-container::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+        
         .header { text-align: center; margin-bottom: 20px; }
         .logo {
             width: 90px; height: 90px; border-radius: 50%;
-            border: 2px solid #00c3ff; margin: 0 auto 15px;
+            border: 2px solid var(--glow-color); margin: 0 auto 15px;
             object-fit: cover; background-color: rgba(255, 255, 255, 0.1);
             animation: pulse-glow 3s infinite ease-in-out;
+            box-shadow: 0 0 15px var(--glow-color);
         }
-        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 10px rgba(0, 195, 255, 0.5); } 50% { box-shadow: 0 0 25px rgba(0, 195, 255, 1); } }
+        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 15px var(--glow-color); } 50% { box-shadow: 0 0 30px var(--glow-color), 0 0 10px var(--glow-color); } }
         
         .academy-title {
             font-family: 'Cinzel Decorative', serif; font-size: 1.9rem; font-weight: 700;
@@ -128,52 +152,51 @@
             display: grid; grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
             gap: 20px; justify-items: center;
         }
-        .social-profile { display: flex; flex-direction: column; align-items: center; text-decoration: none; width: 100%; }
+        .social-profile { 
+            display: flex; flex-direction: column; align-items: center; 
+            text-decoration: none; width: 100%;
+            /* NEW: Staggered animation for icons */
+            opacity: 0;
+            animation: fade-in-up 0.5s ease forwards;
+        }
+        /* Staggered Delay */
+        .social-profile:nth-child(1) { animation-delay: 3.8s; }
+        .social-profile:nth-child(2) { animation-delay: 3.9s; }
+        .social-profile:nth-child(3) { animation-delay: 4.0s; }
+        .social-profile:nth-child(4) { animation-delay: 4.1s; }
+        .social-profile:nth-child(5) { animation-delay: 4.2s; }
+        .social-profile:nth-child(6) { animation-delay: 4.3s; }
+        .social-profile:nth-child(7) { animation-delay: 4.4s; }
+        .social-profile:nth-child(8) { animation-delay: 4.5s; }
+        .social-profile:nth-child(9) { animation-delay: 4.6s; }
+
         .icon-circle {
             display: flex; justify-content: center; align-items: center;
             width: 70px; height: 70px; border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease, background-color 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
         }
-        .social-profile:hover .icon-circle { background-color: rgba(255, 255, 255, 0.2); transform: translateY(-5px); }
-        .icon-circle i { color: #fff; font-size: 30px; }
-        .icon-circle .icon-svg { width: 32px; height: 32px; fill: #fff; }
-        .icon-name { margin-top: 10px; color: #ccc; font-weight: 600; }
+        .social-profile:hover .icon-circle { 
+            background-color: rgba(255, 255, 255, 0.15); 
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+        .icon-circle i, .icon-circle .icon-svg { color: #fff; font-size: 30px; width: 32px; height: 32px; fill: #fff; }
+        .icon-name { margin-top: 10px; color: #ccc; font-weight: 600; transition: color 0.3s ease; }
+        .social-profile:hover .icon-name { color: #fff; }
         .site-footer { text-align: center; margin-top: 30px; color: #aaa; }
 
-        /* === NEW: PHONE-FRIENDLY "SAFE MODE" === */
+        /* iPhone & Mobile Friendly Adjustments */
         @media (max-width: 600px) {
             body {
-                display: block;
-                padding: 15px 10px;
-                align-items: initial;
+                display: block; padding: 15px 10px; align-items: initial;
             }
             .main-container {
-                margin: 0 auto;
-                padding: 25px 15px;
+                margin: 0 auto; padding: 25px 15px;
             }
-
-            /* --- Disabling animations for stability on mobile --- */
-            .starfield {
-                display: none; /* Turn off background animation */
-            }
-            body {
-                background: #000; /* Simple black background for phone */
-            }
-            .logo {
-                animation: none; /* Turn off logo pulse animation */
-            }
-            .academy-title {
-                animation: none; /* Turn off text shine animation */
-            }
-            .social-profile:hover .icon-circle {
-                transform: none; /* Turn off icon hover animation */
-            }
-            /* --- End of disabled animations --- */
-
             .academy-title { font-size: 1.5rem; }
             .logo { width: 80px; height: 80px; }
-            
             .social-grid {
                 grid-template-columns: repeat(3, 1fr);
                 gap: 20px;
@@ -197,7 +220,7 @@
         <div class="preloader-text">Ganga Gurukulam</div>
     </div>
     
-    <div class="starfield" id="starfield-container"></div>
+    <div class="aurora-background"></div>
     
     <div class="main-container">
         <header class="header">
@@ -232,22 +255,7 @@
             }, 3500);
         });
 
-        // Hyperdrive background script (Unchanged)
-        const starfield = document.getElementById('starfield-container');
-        const numStars = 200;
-
-        for (let i = 0; i < numStars; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            const size = Math.random() * 2 + 1;
-            star.style.width = `${size}px`;
-            star.style.height = `${size}px`;
-            star.style.left = `${Math.random() * 100}%`;
-            star.style.top = `${Math.random() * 100}%`;
-            star.style.animationDuration = `${Math.random() * 2 + 1}s`;
-            star.style.animationDelay = `${Math.random() * 3}s`;
-            starfield.appendChild(star);
-        }
+        // The old starfield script is no longer needed!
     </script>
 </body>
 </html>
