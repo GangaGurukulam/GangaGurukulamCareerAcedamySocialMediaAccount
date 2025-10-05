@@ -21,34 +21,99 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            background-color: #020024; /* Deep blue background */
+            background-color: #020024;
             overflow: hidden;
             position: relative;
         }
 
-        /* === NEW: Floating Crystals Background === */
-        .crystal-background {
+        /* === NEW: Preloader (News Broadcast Intro) === */
+        .preloader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0;
-            list-style: none;
+            background: #020024;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            transition-delay: 0.5s;
+        }
+
+        .logo-reveal-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+        }
+        
+        .preloader-logo {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            opacity: 0;
+            animation: reveal-logo 1s ease-in-out 1s forwards; /* Reveal after 1s */
+        }
+
+        /* Rings for the animation */
+        .ring {
+            position: absolute;
+            top: 50%; left: 50%;
+            border: 2px solid #00c3ff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+        }
+
+        .ring:nth-child(1) { width: 150px; height: 150px; animation: sweep 2s ease-out forwards; }
+        .ring:nth-child(2) { width: 200px; height: 200px; animation: sweep 2s ease-out 0.2s forwards; }
+        .ring:nth-child(3) { width: 250px; height: 250px; animation: sweep 2s ease-out 0.4s forwards; }
+        
+        .preloader-text {
+            color: white;
+            font-family: 'Audiowide', cursive;
+            font-size: 1.5rem;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fade-in-out 2s ease-in-out 1.5s forwards;
+        }
+
+        @keyframes sweep {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+        }
+        @keyframes reveal-logo {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes fade-in-out {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+
+        /* Hiding preloader and showing main content */
+        body.loaded .preloader {
+            opacity: 0;
+            visibility: hidden;
+        }
+        body.loaded .main-container {
+            opacity: 1;
+            visibility: visible;
+        }
+
+
+        /* Crystal Background (Unchanged) */
+        .crystal-background {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; list-style: none;
         }
         .crystal-background li {
-            position: absolute;
-            bottom: -150px;
-            width: 40px; height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: absolute; bottom: -150px; width: 40px; height: 40px;
+            background-color: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
             animation: float-up 20s infinite linear;
             clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
         }
-        @keyframes float-up {
-            to {
-                transform: translateY(-120vh) rotate(720deg);
-                opacity: 0;
-            }
-        }
-        /* Variations for different crystals */
+        @keyframes float-up { to { transform: translateY(-120vh) rotate(720deg); opacity: 0; } }
         .crystal-background li:nth-child(1) { left: 10%; width: 80px; height: 80px; animation-delay: 0s; animation-duration: 15s; }
         .crystal-background li:nth-child(2) { left: 20%; width: 30px; height: 30px; animation-delay: 2s; animation-duration: 12s; }
         .crystal-background li:nth-child(3) { left: 35%; width: 100px; height: 100px; animation-delay: 4s; }
@@ -56,50 +121,31 @@
         .crystal-background li:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-delay: 0s; animation-duration: 10s; }
         .crystal-background li:nth-child(6) { left: 85%; width: 120px; height: 120px; animation-delay: 3s; }
         
-        /* Main Container */
+        /* Main Container and other styles (Unchanged) */
         .main-container {
-            width: 100%;
-            max-width: 550px;
-            background: rgba(2, 0, 36, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%; max-width: 550px;
+            background: rgba(2, 0, 36, 0.7); backdrop-filter: blur(10px);
+            border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            z-index: 10;
-            padding: 30px;
-            animation: open-box 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-            opacity: 0;
-            
-            /* === NEW: Scroll Fix for smaller heights === */
-            max-height: 95vh; /* Prevents container from being taller than the screen */
-            overflow-y: auto;  /* Adds a scrollbar ONLY if content overflows */
+            z-index: 10; padding: 30px;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.8s ease 0.5s, visibility 0.8s ease 0.5s;
+            max-height: 95vh; overflow-y: auto;
         }
-        
-        /* Custom Scrollbar Styling */
         .main-container::-webkit-scrollbar { width: 6px; }
         .main-container::-webkit-scrollbar-track { background: transparent; }
         .main-container::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.3); border-radius: 10px; }
-
-
-        @keyframes open-box { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
-        
         .header { text-align: center; margin-bottom: 20px; }
-
         .logo {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            border: 2px solid #00c3ff;
-            margin: 0 auto 15px;
-            object-fit: cover;
-            background-color: rgba(255, 255, 255, 0.1);
+            width: 90px; height: 90px; border-radius: 50%;
+            border: 2px solid #00c3ff; margin: 0 auto 15px;
+            object-fit: cover; background-color: rgba(255, 255, 255, 0.1);
             animation: pulse-glow 3s infinite ease-in-out;
         }
         @keyframes pulse-glow {
             0%, 100% { box-shadow: 0 0 10px rgba(0, 195, 255, 0.5); }
             50% { box-shadow: 0 0 25px rgba(0, 195, 255, 1); }
         }
-        
         .academy-title {
             font-family: 'Audiowide', cursive; font-size: 1.8rem; font-weight: 400;
             background: linear-gradient(90deg, #00c3ff, #e547ff);
@@ -108,7 +154,6 @@
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
             margin-bottom: 10px;
         }
-
         .scrolling-notice-container {
             width: 100%; overflow: hidden; margin: 15px 0;
             background: rgba(0, 0, 0, 0.2); border-radius: 5px; padding: 8px 0;
@@ -119,13 +164,11 @@
             animation: scroll-left 15s linear infinite;
         }
         @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-100%); } }
-
         .social-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
             gap: 25px; justify-items: center;
         }
         .social-profile { display: flex; flex-direction: column; align-items: center; text-decoration: none; width: 90px; }
-        
         .icon-circle {
             display: flex; justify-content: center; align-items: center;
             width: 70px; height: 70px; border-radius: 50%;
@@ -136,7 +179,6 @@
             background-color: rgba(255, 255, 255, 0.2);
             transform: translateY(-5px);
         }
-
         .icon-circle i { color: #fff; font-size: 30px; }
         .icon-circle .icon-svg { width: 32px; height: 32px; fill: #fff; }
         .icon-name { margin-top: 10px; color: #ccc; font-weight: 600; }
@@ -151,17 +193,24 @@
             .icon-circle { width: 60px; height: 60px; }
             .icon-circle i { font-size: 26px; }
             .icon-circle .icon-svg { width: 28px; height: 28px; }
+            .logo-reveal-container { width: 120px; height: 120px; }
+            .preloader-text { font-size: 1.2rem; }
         }
     </style>
 </head>
 <body>
+    <div class="preloader">
+        <div class="logo-reveal-container">
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <img src="img/photo_2025-10-04_12-52-16(1).jpg" alt="Loading Logo" class="preloader-logo">
+        </div>
+        <div class="preloader-text">Ganga Gurukulam</div>
+    </div>
+    
     <ul class="crystal-background">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
+        <li></li><li></li><li></li><li></li><li></li><li></li>
     </ul>
     
     <div class="main-container">
@@ -189,5 +238,12 @@
         <p class="site-footer">&copy; 2025 Copyright. All rights reserved by Ganga Gurukulam Career Academy.</p>
     </div>
 
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 3500); // Animation duration: 3.5 seconds
+        });
+    </script>
 </body>
 </html>
