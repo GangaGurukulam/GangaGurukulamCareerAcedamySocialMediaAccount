@@ -5,222 +5,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ganga Gurukulam Career Academy - Official Social Media Links</title>
     
-    <!-- Google Font for Premium Look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
     
-    <!-- === CSS STYLES START HERE === -->
     <style>
-        /* Global Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            background-color: #121212; /* Dark background base */
+            overflow: hidden;
+            position: relative;
         }
 
+        /* === NEW: Living Liquid Gradient Background === */
+        .liquid-background {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            filter: blur(100px); /* This creates the soft, liquid feel */
+        }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 70%);
+            animation: move 25s infinite alternate;
+        }
+        .blob1 { width: 400px; height: 400px; top: -100px; left: -100px; background-color: #00ffff; }
+        .blob2 { width: 300px; height: 300px; bottom: -50px; right: -50px; background-color: #ff00ff; animation-duration: 20s; animation-delay: 2s; }
+        .blob3 { width: 250px; height: 250px; top: 50%; left: 50%; background-color: #4d00ff; animation-duration: 30s; }
+
+        @keyframes move {
+            from { transform: translate(0, 0) rotate(0deg); }
+            to { transform: translate(100px, 200px) rotate(360deg); }
+        }
+        
+        /* Main Container */
         .main-container {
             width: 100%;
             max-width: 550px;
-            background-color: #ffffff;
+            background: rgba(18, 18, 18, 0.6); /* Semi-transparent dark */
+            backdrop-filter: blur(10px);
             border-radius: 24px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden; /* Important for rounded corners */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            z-index: 10;
+            padding: 30px;
+            animation: open-box 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            opacity: 0;
         }
-
-        /* === NEW: Header Styles with Dark Theme === */
-        .site-header {
-            padding: 25px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #3c4b6a; /* Dark charcoal color */
-        }
+        @keyframes open-box { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        
+        .header { text-align: center; margin-bottom: 20px; }
 
         .logo {
-            max-width: 180px;
-            height: auto;
-        }
-
-        /* Main Content Styles */
-        .site-content {
-            padding: 30px;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 30px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #2d3748;
-        }
-        
-        /* Marquee Style */
-        .scrolling-notice {
-            display: block;
-            width: 100%;
-            font-size: 15px;
-            font-weight: 600;
-            color: #bc0404;
-            padding: 8px 0;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        /* Social Media Grid Styles */
-        .social-grid {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 25px;
-        }
-
-        .social-profile {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
             width: 90px;
-        }
-
-        .icon-circle {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 65px;
-            height: 65px;
+            height: 90px;
             border-radius: 50%;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            margin: 0 auto 15px;
+            object-fit: cover;
+            background-color: rgba(255, 255, 255, 0.1);
         }
-
-        .social-profile:hover .icon-circle {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .icon-circle i {
-            color: #ffffff !important;
-            font-size: 28px;
-        }
-
-        .icon-name {
-            margin-top: 15px;
-            color: #4a5568;
-            font-size: 14px;
-            font-weight: 500;
-            text-align: center;
-        }
-
-        /* Facebook Icon Fix */
-        .facebook-bg {
-            background-color: #ffffff;
-            border: 1px solid #e7e7e7;
-        }
-        .facebook-bg i {
-            color: #1877F2 !important;
-        }
-        /* Icon Background Colors */
-        .youtube-bg      { background-color: #FF0000; }
-        .twitter-x-bg    { background-color: #000000; }
-        .whatsapp-bg     { background-color: #25D366; }
-        .telegram-bg     { background-color: #24A1DE; }
-        .instagram-bg    { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #bc1888); }
-        .linkedin-bg     { background-color: #0A66C2; }
         
-        /* === NEW: Footer Styles with Dark Theme === */
-        .site-footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 14px;
-            background-color: #1a202c; /* Dark charcoal color */
-            color: #a0aec0; /* Light grey text for contrast */
+        /* === NEW: Font Style and Color for the Title === */
+        .academy-title {
+            font-family: 'Audiowide', cursive;
+            font-size: 1.8rem;
+            font-weight: 400; /* Audiowide is bold by default */
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            margin-bottom: 10px;
         }
+
+        .scrolling-notice-container {
+            width: 100%; overflow: hidden; margin: 15px 0;
+            background: rgba(0, 0, 0, 0.2); border-radius: 5px; padding: 8px 0;
+        }
+        .scrolling-text {
+            color: #ffc107; font-weight: 600; display: inline-block;
+            white-space: nowrap; padding-left: 100%;
+            animation: scroll-left 15s linear infinite;
+        }
+        @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+
+        .social-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 25px; justify-items: center;
+        }
+        .social-profile { display: flex; flex-direction: column; align-items: center; text-decoration: none; width: 90px; }
+        .icon-circle {
+            display: flex; justify-content: center; align-items: center;
+            width: 70px; height: 70px; border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .social-profile:hover .icon-circle { transform: translateY(-5px) scale(1.1); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
+        .icon-circle i { color: #fff; font-size: 30px; }
+        .icon-circle .icon-svg { width: 32px; height: 32px; fill: #fff; }
+        .icon-name { margin-top: 10px; color: #ccc; font-weight: 600; }
+        .site-footer { text-align: center; margin-top: 30px; color: #aaa; }
     </style>
-    <!-- === CSS STYLES END HERE === -->
 </head>
 <body>
-
+    <div class="liquid-background">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+        <div class="blob blob3"></div>
+    </div>
+    
     <div class="main-container">
-        <!-- HEADER SECTION -->
-        <header class="site-header">
-            <img src="img/lololo.png" alt="Ganga Gurukulam Career Academy" class="logo">
+        <header class="header">
+            <img src="img/photo_2025-10-04_12-52-16(1).jpg" alt="Ganga Gurukulam Logo" class="logo">
+            
+            <h1 class="academy-title">Ganga Gurukulam Career Academy</h1>
         </header>
 
-        <!-- SOCIAL MEDIA SECTION -->
-        <main class="site-content">
-            <h2 class="section-title">Follow Us</h2>
-            
-            <marquee class="scrolling-notice">
-                यह <b> गंगा गुरुकुलम करियर अकादमी </b> के आधिकारिक सोशल अकाउंट हैं। (These are the official social accounts of <b> Ganga Gurukulam Career Academy</b>.)
-            </marquee>
-            
-            <div class="social-grid">
-                <!-- YouTube -->
-                <a href="https://youtube.com/@gangagurukulamofficial?si=docNLuCrgU_VYpsI" target="_blank" class="social-profile">
-                    <div class="icon-circle youtube-bg"><i class="fab fa-youtube"></i></div>
-                    <span class="icon-name">YouTube</span>
-                </a>
+        <div class="scrolling-notice-container">
+            <p class="scrolling-text">यह गंगा गुरुकुलम करियर अकादमी के आधिकारिक सोशल अकाउंट हैं।</p>
+        </div>
 
-                <!-- Facebook -->
-                <a href="https://www.facebook.com/share/1FRuqCdKSX/" target="_blank" class="social-profile">
-                    <div class="icon-circle facebook-bg"><i class="fab fa-facebook-f"></i></div>
-                    <span class="icon-name">Facebook</span>
-                </a>
-
-                <!-- X (Twitter) -->
-                <a href="https://x.com/Gangagurukulam?s=09" target="_blank" class="social-profile">
-                    <div class="icon-circle twitter-x-bg"><i class="fa-brands fa-twitter"></i></div>
-                    <span class="icon-name">X</span>
-                </a>
-
-                <!-- WhatsApp -->
-                <a href="https://whatsapp.com/channel/0029VayzsIHKbYMOSOW9xt1i" target="_blank" class="social-profile">
-                    <div class="icon-circle whatsapp-bg"><i class="fa-brands fa-whatsapp"></i></div>
-                    <span class="icon-name">WhatsApp</span>
-                </a>
-
-                <!-- Telegram -->
-                <a href="https://t.me/gangagurukulam" target="_blank" class="social-profile">
-                    <div class="icon-circle telegram-bg"><i class="fab fa-telegram"></i></div>
-                    <span class="icon-name">Telegram</span>
-                </a>
-
-                <!-- Instagram -->
-                <a href="https://www.instagram.com/gangagurukulamofficial?igsh=MXV3eDlqYjg3NzIzbQ==" target="_blank" class="social-profile">
-                    <div class="icon-circle instagram-bg"><i class="fab fa-instagram"></i></div>
-                    <span class="icon-name">Instagram</span>
-                </a>
-
-                <!-- LinkedIn -->
-                <a href="" target="_blank" class="social-profile">
-                    <div class="icon-circle linkedin-bg"><i class="fab fa-linkedin-in"></i></div>
-                    <span class="icon-name">LinkedIn</span>
-                </a>
-            </div>
-        </main>
+        <div class="social-grid">
+            <a href="https://youtube.com/@gangagurukulamofficial?si=docNLuCrgU_VYpsI" target="_blank" class="social-profile"><div class="icon-circle"><i class="fab fa-youtube" style="color:#ff0000"></i></div><span class="icon-name">YouTube</span></a>
+            <a href="https://www.instagram.com/gangagurukulamofficial?igsh=MXV3eDlqYjg3NzIzbQ==" target="_blank" class="social-profile"><div class="icon-circle"><i class="fab fa-instagram" style="color:#e4405f"></i></div><span class="icon-name">Instagram</span></a>
+            <a href="https://www.facebook.com/share/1FRuqCdKSX/" target="_blank" class="social-profile"><div class="icon-circle"><i class="fab fa-facebook-f" style="color:#1877f2"></i></div><span class="icon-name">Facebook</span></a>
+            <a href="https://x.com/Gangagurukulam?t=9rMvOLumbTSopXJsDwY_-Q&s=35" target="_blank" class="social-profile"><div class="icon-circle"><i class="fa-brands fa-x-twitter"></i></div><span class="icon-name">X</span></a>
+            <a href="https://whatsapp.com/channel/0029VayzsIHKbYMOSOW9xt1i" target="_blank" class="social-profile"><div class="icon-circle"><i class="fa-brands fa-whatsapp" style="color:#25d366"></i></div><span class="icon-name">WhatsApp</span></a>
+            <a href="https://t.me/gangagurukulam" target="_blank" class="social-profile"><div class="icon-circle"><i class="fab fa-telegram" style="color:#24a1de"></i></div><span class="icon-name">Telegram</span></a>
+            <a href="https://linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=ganga-gurukulam-901376380" target="_blank" class="social-profile"><div class="icon-circle"><i class="fab fa-linkedin-in" style="color:#0a66c2"></i></div><span class="icon-name">LinkedIn</span></a>
+            <a href="https://atoplay.com/channels/d153b3fb-cd54-48ef-82a9-b502e43dbe6a" target="_blank" class="social-profile"><div class="icon-circle"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm3.42,10.61-4.5,2.5a.5.5,0,0,1-.75-.43V9.32a.5.5,0,0,1,.75-.43l4.5,2.5a.5.5,0,0,1,0,.86Z" fill="#ff0000"></path></svg></div><span class="icon-name">AutoPlay</span></a>
+            <a href="https://aratt.ai/@ganga_gurukulam_career_academy" target="_blank" class="social-profile"><div class="icon-circle"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M20,2H4A2,2,0,0,0,2,4V22l4-4H20a2,2,0,0,0,2-2V4A2,2,0,0,0,20,2Zm-8.4,11.2a.5.5,0,0,1-.7,0l-1.8-1.8-1.8,1.8a.5.5,0,0,1-.7,0l-2.2-2.2a.5.5,0,0,1,0-.7l5.4-5.4a.5.5,0,0,1,.7,0l5.4,5.4a.5.5,0,0,1,0,.7Z" fill="#1a73e8"></path></svg></div><span class="icon-name">Arattai</span></a>
+        </div>
         
-        <!-- FOOTER SECTION -->
-        <footer class="site-footer">
-            &copy; 2025 copyright. All rights reserved by Ganga Gurukulam Career Academy.
-        </footer>
+        <p class="site-footer">&copy; 2025 Copyright. All rights reserved by Ganga Gurukulam Career Academy.</p>
     </div>
 
 </body>
-
 </html>
